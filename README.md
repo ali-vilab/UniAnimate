@@ -127,8 +127,29 @@ After this, 32-frame video clips with 768x512 resolution will be generated:
 
 <table>
 <center>
+  <tr>
+    <td ><center>
+      <image  height="260" src="assets/1.gif"></image>	
+    </center></td>
+    <td ><center>
+      <image height="260" src="assets/2.gif"></image>	
+    </center></td>
+  </tr>
+  <tr>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYV1hTb2g3Zlpmb1E/Vk9HZHZkdDBUQzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYYzNUUWRKR043c1FaZkVHSkpSMnpoeTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+  </tr>
+</center>
+</table>
+</center>
+
+<!-- <table>
+<center>
 <tr>
-    <!-- <td width=25% style="border: none"> -->
     <td ><center>
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYYzNUUWRKR043c1FaZkVHSkpSMnpoeTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
@@ -136,7 +157,7 @@ After this, 32-frame video clips with 768x512 resolution will be generated:
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYV1hTb2g3Zlpmb1E/Vk9HZHZkdDBUQzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
 </tr>
-</table>
+</table> -->
 
 
 **<font color=red>&#10004; Some tips</font>**:
@@ -152,10 +173,33 @@ python inference.py --cfg configs/UniAnimate_infer.yaml
 ```
 After this, 32-frame video clips with 1216x768 resolution will be generated:
 
+
+
 <table>
 <center>
+  <tr>
+    <td ><center>
+      <image  height="260" src="assets/3.gif"></image>	
+    </center></td>
+    <td ><center>
+      <image height="260" src="assets/4.gif"></image>	
+    </center></td>
+  </tr>
+  <tr>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/NTFJUWJ1YXphUzU5b3dhZHJlQk1YZjA3emppMWNJbHhXSlN6WmZHc2FTYTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYYklMcGdIRFlDcXcwVEU5ZnR0VlBpRzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+  </tr>
+</center>
+</table>
+</center>
+
+<!-- <table>
+<center>
 <tr>
-    <!-- <td width=25% style="border: none"> -->
     <td ><center>
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/NTFJUWJ1YXphUzU5b3dhZHJlQk1YZjA3emppMWNJbHhXSlN6WmZHc2FTYTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
@@ -163,7 +207,7 @@ After this, 32-frame video clips with 1216x768 resolution will be generated:
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYYklMcGdIRFlDcXcwVEU5ZnR0VlBpRzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
 </tr>
-</table>
+</table> -->
 
 
 **<font color=red>&#10004; Some tips</font>**:
@@ -188,10 +232,33 @@ python inference.py --cfg configs/UniAnimate_infer_long.yaml
 ```
 After this, long videos with 1216x768 resolution will be generated:
 
+
+
 <table>
 <center>
+  <tr>
+    <td ><center>
+      <image  height="260" src="assets/5.gif"></image>	
+    </center></td>
+    <td ><center>
+      <image height="260" src="assets/6.gif"></image>	
+    </center></td>
+  </tr>
+  <tr>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYVmJKZUJSbDl6N1FXU01DYTlDRmJKTzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/VUdZTUE5MWtST3VtNEdFaVpGbHN1U25nNEorTEc2SzZROUNiUjNncW5ycTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+  </tr>
+</center>
+</table>
+</center>
+
+<!-- <table>
+<center>
 <tr>
-    <!-- <td width=25% style="border: none"> -->
     <td ><center>
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYVmJKZUJSbDl6N1FXU01DYTlDRmJKTzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
@@ -199,13 +266,36 @@ After this, long videos with 1216x768 resolution will be generated:
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/VUdZTUE5MWtST3VtNEdFaVpGbHN1U25nNEorTEc2SzZROUNiUjNncW5ycTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
 </tr>
-</table>
+</table> -->
+
+
 
 
 <table>
 <center>
+  <tr>
+    <td ><center>
+      <image  height="260" src="assets/7.gif"></image>	
+    </center></td>
+    <td ><center>
+      <image height="260" src="assets/8.gif"></image>	
+    </center></td>
+  </tr>
+  <tr>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYV04xKzd3eWFPVGZCQjVTUWdtbTFuQzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+    <td ><center>
+      <p>Click <a href="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYWGwxVkNMY1NXOHpWTVdNZDRxKzRuZTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ">HERE</a> to view the generated video.</p>
+    </center></td>
+  </tr>
+</center>
+</table>
+</center>
+
+<!-- <table>
+<center>
 <tr>
-    <!-- <td width=25% style="border: none"> -->
     <td ><center>
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYV04xKzd3eWFPVGZCQjVTUWdtbTFuQzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
@@ -213,7 +303,7 @@ After this, long videos with 1216x768 resolution will be generated:
         <video height="260" controls autoplay loop src="https://cloud.video.taobao.com/vod/play/cEdJVkF4TXRTOTd2bTQ4andjMENYWGwxVkNMY1NXOHpWTVdNZDRxKzRuZTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ" muted="false"></video>
     </td>
 </tr>
-</table>
+</table> -->
 
 In the `configs/UniAnimate_infer_long.yaml` configuration file, `test_list_path` should in the format of `[frame_interval, reference image, driving pose sequence]`, where `frame_interval=1` means that all frames in the target pose sequence will be used to generate the video, and `frame_interval=2` means that one frame is sampled every two frames. `reference image` is the location where the reference image is saved, and `driving pose sequence` is the location where the driving pose sequence is saved.
 
