@@ -1,0 +1,17 @@
+*.pkl
+*.pt
+*.mov
+*.pth
+*.mov
+*.npz
+*.npy
+*.boj
+*.onnx
+*.tar
+*.bin
+cache*
+.DS_Store
+*DS_Store
+outputs/
+**/__pycache__
+*/__pycache__
