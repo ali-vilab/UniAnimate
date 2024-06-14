@@ -311,7 +311,7 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
                 
                 local_path = local_path.replace('.mp4', '.png')
                 cv2.imwrite(local_path, images[0][:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-                bucket.put_object_from_file(oss_key, local_path)
+                # bucket.put_object_from_file(oss_key, local_path)
             else:
 
                 outputs = []
@@ -355,5 +355,5 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
             exception = e
             continue
     if exception is not None:
-        print('save video to {} failed, error: {}'.format(oss_key, exception), flush=True)
+        print('save video to {} failed, error: {}'.format(local_path, exception), flush=True)
 
