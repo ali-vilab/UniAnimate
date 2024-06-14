@@ -304,7 +304,7 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
             vid_gif = torch.cat(cons_list + [vid_gif,], dim=3)
             
             vid_gif = vid_gif.permute(1,2,3,0)
-            # local_path = filename
+            
             images = vid_gif * 255.0
             images = [(img.numpy()).astype('uint8') for img in images]
             if len(images) == 1:
@@ -313,23 +313,40 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
                 cv2.imwrite(local_path, images[0][:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
                 bucket.put_object_from_file(oss_key, local_path)
             else:
-                # save_fps = 8
-                # frame_dir = os.path.join(os.path.dirname(local_path), '%s_frames' % (os.path.basename(local_path)))
-                # os.system(f'rm -rf {frame_dir}'); os.makedirs(frame_dir, exist_ok=True)
-                # for fid, frame in enumerate(images):
-                #     tpth = os.path.join(frame_dir, '%04d.png' % (fid+1))
-                #     cv2.imwrite(tpth, frame[:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-                # image_names = os.listdir(frame_dir)
-                # image_names.sort(key=lambda n: int(n[:-4]))
 
-                fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-                fps = save_fps
-                image = images[0] 
-                media_writer = cv2.VideoWriter(local_path, fourcc, fps, (image.shape[1],image.shape[0]))
+                outputs = []
                 for image_name in images:
-                    im = image_name[:,:,::-1] 
-                    media_writer.write(im)
-                media_writer.release()
+                    x = Image.fromarray(image_name)
+                    outputs.append(x)
+                from pathlib import Path
+                save_fmt = Path(local_path).suffix
+
+                if save_fmt == ".mp4":
+                    with imageio.get_writer(local_path, fps=save_fps) as writer:
+                        for img in outputs:
+                            img_array = np.array(img)  # Convert PIL Image to numpy array
+                            writer.append_data(img_array)
+
+                elif save_fmt == ".gif":
+                    outputs[0].save(
+                        fp=local_path,
+                        format="GIF",
+                        append_images=outputs[1:],
+                        save_all=True,
+                        duration=(1 / save_fps * 1000),
+                        loop=0,
+                    )
+                else:
+                    raise ValueError("Unsupported file type. Use .mp4 or .gif.")
+
+                # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                # fps = save_fps
+                # image = images[0] 
+                # media_writer = cv2.VideoWriter(local_path, fourcc, fps, (image.shape[1],image.shape[0]))
+                # for image_name in images:
+                #     im = image_name[:,:,::-1] 
+                #     media_writer.write(im)
+                # media_writer.release()
                 
             
             exception = None
