@@ -327,7 +327,6 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
                 image = images[0] 
                 media_writer = cv2.VideoWriter(local_path, fourcc, fps, (image.shape[1],image.shape[0]))
                 for image_name in images:
-
                     im = image_name[:,:,::-1] 
                     media_writer.write(im)
                 media_writer.release()
