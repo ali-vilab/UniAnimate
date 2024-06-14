@@ -63,7 +63,8 @@ git clone https://github.com/ali-vilab/UniAnimate.git
 cd UniAnimate
 conda create -n UniAnimate python=3.9
 conda activate UniAnimate
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install -r requirements.txt
 ```
 We also provide all the dependencies in `environment.yaml`
 
