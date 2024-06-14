@@ -310,19 +310,28 @@ def save_video_multiple_conditions_not_gif_horizontal_3col(local_path, video_ten
             if len(images) == 1:
                 
                 local_path = local_path.replace('.mp4', '.png')
-                # oss_key = oss_key.replace('.gif', '.png')
                 cv2.imwrite(local_path, images[0][:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
                 bucket.put_object_from_file(oss_key, local_path)
             else:
                 # save_fps = 8
-                frame_dir = os.path.join(os.path.dirname(local_path), '%s_frames' % (os.path.basename(local_path)))
-                os.system(f'rm -rf {frame_dir}'); os.makedirs(frame_dir, exist_ok=True)
-                for fid, frame in enumerate(images):
+                # frame_dir = os.path.join(os.path.dirname(local_path), '%s_frames' % (os.path.basename(local_path)))
+                # os.system(f'rm -rf {frame_dir}'); os.makedirs(frame_dir, exist_ok=True)
+                # for fid, frame in enumerate(images):
+                #     tpth = os.path.join(frame_dir, '%04d.png' % (fid+1))
+                #     cv2.imwrite(tpth, frame[:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+                # image_names = os.listdir(frame_dir)
+                # image_names.sort(key=lambda n: int(n[:-4]))
+
+                fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                fps = save_fps
+                image = images[0] 
+                media_writer = cv2.VideoWriter(local_path, fourcc, fps, (image.shape[1],image.shape[0]))
+                for image_name in images:
+
+                    im = image_name[:,:,::-1] 
+                    media_writer.write(im)
+                media_writer.release()
                 
-                    tpth = os.path.join(frame_dir, '%04d.png' % (fid+1))
-                    cv2.imwrite(tpth, frame[:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-                cmd = f'ffmpeg -y -f image2 -loglevel quiet -framerate {save_fps} -i {frame_dir}/%04d.png -vcodec libx264 -crf 17  -pix_fmt yuv420p {local_path}'
-                os.system(cmd); os.system(f'rm -rf {frame_dir}')
             
             exception = None
             break
