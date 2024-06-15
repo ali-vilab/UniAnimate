@@ -23,6 +23,7 @@
 </div>
 
 ## 🔥 News 
+- **[2024/06/15]** 🔥🔥🔥 By offloading CLIP and VAE and explicitly adding torch.float16 (i.e., set `CPU_CLIP_VAE: True` in `configs/UniAnimate_infer.yaml`), the GPU memory can be greatly reduced. Now generating a 32x768x512 video clip only requires **~12G GPU memory**. Refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/10) for more details. Thanks to [@blackight](https://github.com/blackight) for the contribution！
 - **[2024/06/13]** **🔥🔥🔥 <font color=red>We released the code and models for human image animation, enjoy it!</font>** 
 - **[2024/06/13]** We have submitted the code to the company for approval, and **the code is expected to be released today or tomorrow**.
 - **[2024/06/03]** We initialized this github repository and planed to release the paper. 
@@ -163,7 +164,7 @@ After this, 32-frame video clips with 768x512 resolution will be generated:
 
 **<font color=red>&#10004; Some tips</font>**:
 
-- > To run the model, ~26G GPU memory will be used. If your GPU is smaller than this, you can change the  `max_frames: 32` in `configs/UniAnimate_infer.yaml` to other values, e.g., 24, 16, and 8. Our model is compatible with all of them.
+- > To run the model, **~12G** ~~26G~~ GPU memory will be used. If your GPU is smaller than this, you can change the  `max_frames: 32` in `configs/UniAnimate_infer.yaml` to other values, e.g., 24, 16, and 8. Our model is compatible with all of them.
 
 
 #### (4.2) Generating video clips (32 frames with 1216x768 resolution)
@@ -213,7 +214,7 @@ After this, 32-frame video clips with 1216x768 resolution will be generated:
 
 **<font color=red>&#10004; Some tips</font>**:
 
-- > To run the model, ~36G GPU memory will be used.  Even though our model was trained on 512x768 resolution, we observed that direct inference on 768x1216 is usually allowed and produces satisfactory results. If this results in inconsistent apparence, you can try a different seed or adjust the resolution to 512x768.
+- > To run the model, **~21G** ~~36G~~ GPU memory will be used.  Even though our model was trained on 512x768 resolution, we observed that direct inference on 768x1216 is usually allowed and produces satisfactory results. If this results in inconsistent apparence, you can try a different seed or adjust the resolution to 512x768.
 
 - > Although our model was not trained on 48 or 64 frames, we found that the model generalizes well to synthesis of these lengths.
 

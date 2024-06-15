@@ -275,7 +275,10 @@ def worker(gpu, cfg, cfg_update):
     logging.info('Load model from {} with status {}'.format(cfg.test_model, status))
     model = model.to(gpu)
     model.eval()
-    model = DistributedDataParallel(model, device_ids=[gpu]) if not cfg.debug else model
+    if hasattr(cfg, "CPU_CLIP_VAE") and cfg.CPU_CLIP_VAE:
+        model.to(torch.float16) 
+    else:
+        model = DistributedDataParallel(model, device_ids=[gpu]) if not cfg.debug else model
     torch.cuda.empty_cache()
 
 
@@ -425,7 +428,11 @@ def worker(gpu, cfg, cfg_update):
                                     use_fps_condition = cfg.use_fps_condition)
                 noise_one = noise
                 
-                
+                if hasattr(cfg, "CPU_CLIP_VAE") and cfg.CPU_CLIP_VAE:
+                    clip_encoder.cpu() # add this line
+                    autoencoder.cpu() # add this line
+                    torch.cuda.empty_cache() # add this line
+
                 video_data = diffusion.ddim_sample_loop(
                     noise=noise_one,
                     context_size=cfg.context_size, 
@@ -436,6 +443,11 @@ def worker(gpu, cfg, cfg_update):
                     guide_scale=cfg.guide_scale,
                     ddim_timesteps=cfg.ddim_timesteps,
                     eta=0.0)
+
+                if hasattr(cfg, "CPU_CLIP_VAE") and cfg.CPU_CLIP_VAE:
+                    # if run forward of  autoencoder or clip_encoder second times, load them again
+                    clip_encoder.cuda()
+                    autoencoder.cuda()
                    
         
                 video_data = 1. / cfg.scale_factor * video_data # [1, 4, h, w]

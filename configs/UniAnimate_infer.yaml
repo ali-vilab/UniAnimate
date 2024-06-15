@@ -95,3 +95,4 @@ Diffusion: {
     'noise_strength': 0.1
 }
 use_DiffusionDPM: False
+CPU_CLIP_VAE: True
