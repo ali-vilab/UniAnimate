@@ -203,6 +203,8 @@ def worker(gpu, cfg, cfg_update):
     if not cfg.debug:
         torch.cuda.set_device(gpu)
         torch.backends.cudnn.benchmark = True
+        if hasattr(cfg, "CPU_CLIP_VAE") and cfg.CPU_CLIP_VAE:
+            torch.backends.cudnn.benchmark = False
         dist.init_process_group(backend='nccl', world_size=cfg.world_size, rank=cfg.rank)
 
     # [Log] Save logging and make log dir
