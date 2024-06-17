@@ -93,7 +93,7 @@ def load_video_frames(ref_image_path, pose_file_path, train_trans, vit_transform
         try:
             dwpose_all = {}
             frames_all = {}
-            for ii_index in os.listdir(pose_file_path):
+            for ii_index in sorted(os.listdir(pose_file_path)):
                 if ii_index != "ref_pose.jpg":
                     dwpose_all[ii_index] = Image.open(pose_file_path+"/"+ii_index)
                     frames_all[ii_index] = Image.fromarray(cv2.cvtColor(cv2.imread(ref_image_path),cv2.COLOR_BGR2RGB)) 
