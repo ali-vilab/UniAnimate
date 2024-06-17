@@ -67,7 +67,9 @@ conda activate UniAnimate
 conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
 pip install -r requirements.txt
 ```
-We also provide all the dependencies in `environment.yaml`
+We also provide all the dependencies in `environment.yaml`. 
+
+**Note**: for Windows operating system, you can refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/11) to install the dependencies. Thanks to [@zephirusgit](https://github.com/zephirusgit) for the contribution.
 
 ### (2) Download the pretrained checkpoints
 
