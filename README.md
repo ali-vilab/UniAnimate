@@ -6,7 +6,7 @@
 
 # UniAnimate: Taming Unified Video Diffusion Models for Consistent Human Image Animation
 
-[Xiang Wang](https://scholar.google.com.hk/citations?user=cQbXvkcAAAAJ&hl=zh-CN&oi=sra)<sup>1</sup>, [Shiwei Zhang](https://scholar.google.com.hk/citations?user=ZO3OQ-8AAAAJ&hl=zh-CN)<sup>2</sup>, [CHangxin Gao](https://scholar.google.com.hk/citations?user=4tku-lwAAAAJ&hl=zh-CN)<sup>1</sup>, [Jiayu Wang](#)<sup>2</sup>, [Xiaoqiang Zhou](https://scholar.google.com.hk/citations?user=Z2BTkNIAAAAJ&hl=zh-CN&oi=ao)<sup>3</sup>, [Yingya Zhang](https://scholar.google.com.hk/citations?user=16RDSEUAAAAJ&hl=zh-CN)<sup>2</sup> , [Luxin Yan](#)<sup>1</sup> , [Nong Sang](https://scholar.google.com.hk/citations?user=ky_ZowEAAAAJ&hl=zh-CN)<sup>1</sup>  
+[Xiang Wang](https://scholar.google.com.hk/citations?user=cQbXvkcAAAAJ&hl=zh-CN&oi=sra)<sup>1</sup>, [Shiwei Zhang](https://scholar.google.com.hk/citations?user=ZO3OQ-8AAAAJ&hl=zh-CN)<sup>2</sup>, [Changxin Gao](https://scholar.google.com.hk/citations?user=4tku-lwAAAAJ&hl=zh-CN)<sup>1</sup>, [Jiayu Wang](#)<sup>2</sup>, [Xiaoqiang Zhou](https://scholar.google.com.hk/citations?user=Z2BTkNIAAAAJ&hl=zh-CN&oi=ao)<sup>3</sup>, [Yingya Zhang](https://scholar.google.com.hk/citations?user=16RDSEUAAAAJ&hl=zh-CN)<sup>2</sup> , [Luxin Yan](#)<sup>1</sup> , [Nong Sang](https://scholar.google.com.hk/citations?user=ky_ZowEAAAAJ&hl=zh-CN)<sup>1</sup>  
 <sup>1</sup>HUST &nbsp; <sup>2</sup>Alibaba Group &nbsp; <sup>3</sup>USTC
 
 
