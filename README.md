@@ -110,7 +110,7 @@ python run_align_pose.py  --ref_name data/images/WOMEN-Blouses_Shirts-id_0000512
 # reference image 4
 python run_align_pose.py  --ref_name data/images/IMG_20240514_104337.jpg --source_video_paths data/videos/source_video.mp4 --saved_pose_dir data/saved_pose/IMG_20240514_104337
 ```
-We have already provided the processed target pose for demo videos in ```data/saved_pose```, if you run our demo video example, this step can be skipped. In addition, you need to install `pip install onnxruntime-gpu==1.13.1` to run pose alignment on GPU.
+We have already provided the processed target pose for demo videos in ```data/saved_pose```, if you run our demo video example, this step can be skipped. In addition, you need to install onnxruntime-gpu (`pip install onnxruntime-gpu==1.13.1`) to run pose alignment on GPU.
 
 **<font color=red>&#10004; Some tips</font>**:
 
