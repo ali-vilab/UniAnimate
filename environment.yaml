@@ -232,4 +232,5 @@ dependencies:
       - yarl==1.9.4
       - zipp==3.17.0
       - zope-interface==6.2
+      - onnxruntime-gpu==1.13.1
 prefix: /mnt/user/miniconda3/envs/dtrans
