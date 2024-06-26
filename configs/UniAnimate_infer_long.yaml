@@ -98,3 +98,4 @@ Diffusion: {
     'noise_strength': 0.1
 }
 CPU_CLIP_VAE: True
+context_batch_size: 1

@@ -444,7 +444,9 @@ def worker(gpu, cfg, cfg_update):
                     model_kwargs=model_kwargs_one,
                     guide_scale=cfg.guide_scale,
                     ddim_timesteps=cfg.ddim_timesteps,
-                    eta=0.0)
+                    eta=0.0,
+                    context_batch_size=getattr(cfg, "context_batch_size", 1)
+                    )
 
                 if hasattr(cfg, "CPU_CLIP_VAE") and cfg.CPU_CLIP_VAE:
                     # if run forward of  autoencoder or clip_encoder second times, load them again

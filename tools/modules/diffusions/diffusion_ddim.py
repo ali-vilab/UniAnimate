@@ -260,6 +260,7 @@ class DiffusionDDIM(object):
         for step in tqdm(steps):
             t = torch.full((b, ), step, dtype=torch.long, device=xt.device)
             xt, _ = self.ddim_sample(xt, t, model, model_kwargs, clamp, percentile, condition_fn, guide_scale, ddim_timesteps, eta)
+            # from ipdb import set_trace; set_trace()
         return xt
     
     @torch.no_grad()
@@ -643,7 +644,7 @@ class DiffusionDDIMLong(object):
             xt, _ = self.p_sample(xt, t, model, model_kwargs, clamp, percentile, condition_fn, guide_scale)
         return xt
     
-    def p_mean_variance(self, xt, t, model, model_kwargs={}, clamp=None, percentile=None, guide_scale=None, context_size=32, context_stride=1, context_overlap=4):
+    def p_mean_variance(self, xt, t, model, model_kwargs={}, clamp=None, percentile=None, guide_scale=None, context_size=32, context_stride=1, context_overlap=4, context_batch_size=1):
         r"""Distribution of p(x_{t-1} | x_t).
         """
         noise = xt
@@ -668,7 +669,7 @@ class DiffusionDDIMLong(object):
             ]
         
         import math
-        context_batch_size = 1
+        # context_batch_size = 1
         num_context_batches = math.ceil(len(context_queue) / context_batch_size)
         global_context = []
         for i in range(num_context_batches):
@@ -687,12 +688,14 @@ class DiffusionDDIMLong(object):
         
         for i_index, context in enumerate(global_context):
             
+            
             latent_model_input = torch.cat([xt[:, :, c] for c in context])
-
+            bs_context = len(context)
+            
             model_kwargs_new = [{
                                     'y': None,
                                     "local_image": None if not model_kwargs[0].__contains__('local_image') else torch.cat([model_kwargs[0]["local_image"][:, :, c] for c in context]),
-                                    'image':  None if not model_kwargs[0].__contains__('image') else model_kwargs[0]["image"],
+                                    'image':  None if not model_kwargs[0].__contains__('image') else model_kwargs[0]["image"].repeat(bs_context, 1, 1),
                                     'dwpose':  None if not model_kwargs[0].__contains__('dwpose') else torch.cat([model_kwargs[0]["dwpose"][:, :, [0]+[ii+1 for ii in c]] for c in context]),
                                     'randomref':  None if not model_kwargs[0].__contains__('randomref') else torch.cat([model_kwargs[0]["randomref"][:, :, c] for c in context]),
                                     }, 
@@ -704,7 +707,6 @@ class DiffusionDDIMLong(object):
                                     'dwpose': None, 
                                     }]
             
-            
             if guide_scale is None:
                 out = model(latent_model_input, self._scale_timesteps(t), **model_kwargs)
                 for j, c in enumerate(context):
@@ -714,20 +716,19 @@ class DiffusionDDIMLong(object):
                 # classifier-free guidance
                 # (model_kwargs[0]: conditional kwargs; model_kwargs[1]: non-conditional kwargs)
                 # assert isinstance(model_kwargs, list) and len(model_kwargs) == 2
-                y_out = model(latent_model_input, self._scale_timesteps(t), **model_kwargs_new[0])
-                u_out = model(latent_model_input, self._scale_timesteps(t), **model_kwargs_new[1])
+                y_out = model(latent_model_input, self._scale_timesteps(t).repeat(bs_context), **model_kwargs_new[0])
+                u_out = model(latent_model_input, self._scale_timesteps(t).repeat(bs_context), **model_kwargs_new[1])
                 dim = y_out.size(1) if self.var_type.startswith('fixed') else y_out.size(1) // 2
-                
                 for j, c in enumerate(context):
-                    noise_pred[:, :, c] = noise_pred[:, :, c] + y_out
-                    noise_pred_uncond[:, :, c] = noise_pred_uncond[:, :, c] + u_out
+                    noise_pred[:, :, c] = noise_pred[:, :, c] + y_out[j:j+1]
+                    noise_pred_uncond[:, :, c] = noise_pred_uncond[:, :, c] + u_out[j:j+1]
                     counter[:, :, c] = counter[:, :, c] + 1
                 
         noise_pred = noise_pred / counter
         noise_pred_uncond = noise_pred_uncond / counter
         out = torch.cat([
                     noise_pred_uncond[:, :dim] + guide_scale * (noise_pred[:, :dim] - noise_pred_uncond[:, :dim]),
-                    noise_pred[:, dim:]], dim=1) # guide_scale=9.0
+                    noise_pred[:, dim:]], dim=1) # guide_scale=2.5
 
         
         # compute variance
@@ -775,7 +776,7 @@ class DiffusionDDIMLong(object):
         return mu, var, log_var, x0
 
     @torch.no_grad()
-    def ddim_sample(self, xt, t, model, model_kwargs={}, clamp=None, percentile=None, condition_fn=None, guide_scale=None, ddim_timesteps=20, eta=0.0, context_size=32, context_stride=1, context_overlap=4):
+    def ddim_sample(self, xt, t, model, model_kwargs={}, clamp=None, percentile=None, condition_fn=None, guide_scale=None, ddim_timesteps=20, eta=0.0, context_size=32, context_stride=1, context_overlap=4, context_batch_size=1):
         r"""Sample from p(x_{t-1} | x_t) using DDIM.
             - condition_fn: for classifier-based guidance (guided-diffusion).
             - guide_scale: for classifier-free guidance (glide/dalle-2).
@@ -783,7 +784,7 @@ class DiffusionDDIMLong(object):
         stride = self.num_timesteps // ddim_timesteps
         
         # predict distribution of p(x_{t-1} | x_t)
-        _, _, _, x0 = self.p_mean_variance(xt, t, model, model_kwargs, clamp, percentile, guide_scale, context_size, context_stride, context_overlap)
+        _, _, _, x0 = self.p_mean_variance(xt, t, model, model_kwargs, clamp, percentile, guide_scale, context_size, context_stride, context_overlap, context_batch_size)
         if condition_fn is not None:
             # x0 -> eps
             alpha = _i(self.alphas_cumprod, t, xt)
@@ -810,7 +811,7 @@ class DiffusionDDIMLong(object):
         return xt_1, x0
     
     @torch.no_grad()
-    def ddim_sample_loop(self, noise, context_size, context_stride, context_overlap, model, model_kwargs={}, clamp=None, percentile=None, condition_fn=None, guide_scale=None, ddim_timesteps=20, eta=0.0):
+    def ddim_sample_loop(self, noise, context_size, context_stride, context_overlap, model, model_kwargs={}, clamp=None, percentile=None, condition_fn=None, guide_scale=None, ddim_timesteps=20, eta=0.0, context_batch_size=1):
         # prepare input
         b = noise.size(0)
         xt = noise
@@ -821,7 +822,7 @@ class DiffusionDDIMLong(object):
         
         for step in tqdm(steps):
             t = torch.full((b, ), step, dtype=torch.long, device=xt.device)
-            xt, _ = self.ddim_sample(xt, t, model, model_kwargs, clamp, percentile, condition_fn, guide_scale, ddim_timesteps, eta, context_size=context_size, context_stride=context_stride, context_overlap=context_overlap)
+            xt, _ = self.ddim_sample(xt, t, model, model_kwargs, clamp, percentile, condition_fn, guide_scale, ddim_timesteps, eta, context_size=context_size, context_stride=context_stride, context_overlap=context_overlap, context_batch_size=context_batch_size)
         return xt
     
     @torch.no_grad()

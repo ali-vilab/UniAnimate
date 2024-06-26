@@ -23,6 +23,7 @@
 </div>
 
 ## 🔥 News 
+- **[2024/06/26]** For cards with large GPU memory, such as A100 GPU, we support multiple segments parallel denoising to accelerate long video inference. You can change `context_batch_size: 1` in `configs/UniAnimate_infer_long.yaml` to other values greater than 1, such as `context_batch_size: 4`. The inference speed will be improved to a certain extent. 
 - **[2024/06/15]** 🔥🔥🔥 By offloading CLIP and VAE and explicitly adding torch.float16 (i.e., set `CPU_CLIP_VAE: True` in `configs/UniAnimate_infer.yaml`), the GPU memory can be greatly reduced. Now generating a 32x768x512 video clip only requires **~12G GPU memory**. Refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/10) for more details. Thanks to [@blackight](https://github.com/blackight) for the contribution！
 - **[2024/06/13]** **🔥🔥🔥 <font color=red>We released the code and models for human image animation, enjoy it!</font>** 
 - **[2024/06/13]** We have submitted the code to the company for approval, and **the code is expected to be released today or tomorrow**.
