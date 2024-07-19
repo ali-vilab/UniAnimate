@@ -21,7 +21,6 @@ partial_keys: [
 
 # default settings
 TASK_TYPE: inference_unianimate_entrance
-use_fp16: True
 guide_scale: 2.5
 vit_resolution: [224, 224]
 use_fp16: True
@@ -96,3 +95,4 @@ Diffusion: {
 }
 use_DiffusionDPM: False
 CPU_CLIP_VAE: True
+noise_prior_value: 949 # or 999, 949

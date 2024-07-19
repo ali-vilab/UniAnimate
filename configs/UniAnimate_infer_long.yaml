@@ -21,7 +21,6 @@ test_list_path: [
 
 # default settings
 TASK_TYPE: inference_unianimate_long_entrance
-use_fp16: True
 guide_scale: 2.5
 vit_resolution: [224, 224]
 use_fp16: True
@@ -99,3 +98,4 @@ Diffusion: {
 }
 CPU_CLIP_VAE: True
 context_batch_size: 1
+noise_prior_value: 939 # or 999, 949
