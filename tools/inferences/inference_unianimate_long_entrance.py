@@ -376,6 +376,9 @@ def worker(gpu, cfg, cfg_update):
 
             noise = torch.randn([1, 4, cfg.max_frames_new, int(cfg.resolution[1]/cfg.scale), int(cfg.resolution[0]/cfg.scale)])
             noise = noise.to(gpu)
+
+            # add a noise prior
+            noise = diffusion.q_sample(random_ref_frame.clone(), getattr(cfg, "noise_prior_value", 939), noise=noise)
             
             if hasattr(cfg.Diffusion, "noise_strength"):
                 b, c, f, _, _= noise.shape

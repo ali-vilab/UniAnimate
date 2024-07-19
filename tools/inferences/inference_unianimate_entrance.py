@@ -381,6 +381,9 @@ def worker(gpu, cfg, cfg_update):
                 offset_noise = torch.randn(b, c, f, 1, 1, device=noise.device)
                 noise = noise + cfg.Diffusion.noise_strength * offset_noise
             
+            # add a noise prior
+            noise = diffusion.q_sample(random_ref_frame.clone(), getattr(cfg, "noise_prior_value", 949), noise=noise)
+
             # construct model inputs (CFG)
             full_model_kwargs=[{
                                         'y': None,
