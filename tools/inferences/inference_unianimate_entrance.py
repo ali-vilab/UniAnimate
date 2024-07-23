@@ -88,101 +88,83 @@ def make_masked_images(imgs, masks):
     return torch.stack(masked_imgs, dim=0)
 
 def load_video_frames(ref_image_path, pose_file_path, train_trans, vit_transforms, train_trans_pose, max_frames=32, frame_interval = 1, resolution=[512, 768], get_first_frame=True, vit_resolution=[224, 224]):
-    
-    
     for _ in range(5):
         try:
             dwpose_all = {}
             frames_all = {}
             for ii_index in sorted(os.listdir(pose_file_path)):
                 if ii_index != "ref_pose.jpg":
-                    dwpose_all[ii_index] = Image.open(pose_file_path+"/"+ii_index)
-                    frames_all[ii_index] = Image.fromarray(cv2.cvtColor(cv2.imread(ref_image_path),cv2.COLOR_BGR2RGB)) 
-                    # frames_all[ii_index] = Image.open(ref_image_path)
-            
-            pose_ref = Image.open(os.path.join(pose_file_path, "ref_pose.jpg"))
-            first_eq_ref = False
+                    dwpose_all[ii_index] = Image.open(os.path.join(pose_file_path, ii_index))
+                    frames_all[ii_index] = Image.fromarray(cv2.cvtColor(cv2.imread(ref_image_path), cv2.COLOR_BGR2RGB))
 
-            # sample max_frames poses for video generation
+            pose_ref = Image.open(os.path.join(pose_file_path, "ref_pose.jpg"))
+
+            # Sample max_frames poses for video generation
             stride = frame_interval
-            _total_frame_num = len(frames_all)
-            cover_frame_num = (stride * (max_frames-1)+1)
-            if _total_frame_num < cover_frame_num:
-                print('_total_frame_num is smaller than cover_frame_num, the sampled frame interval is changed')
-                start_frame = 0   # we set start_frame = 0 because the pose alignment is performed on the first frame
-                end_frame = _total_frame_num
-                stride = max((_total_frame_num-1//(max_frames-1)),1)
-                end_frame = stride*max_frames
+            total_frame_num = len(frames_all)
+            cover_frame_num = (stride * (max_frames - 1) + 1)
+
+            if total_frame_num < cover_frame_num:
+                print(f'_total_frame_num ({total_frame_num}) is smaller than cover_frame_num ({cover_frame_num}), the sampled frame interval is changed')
+                start_frame = 0
+                end_frame = total_frame_num
+                stride = max((total_frame_num - 1) // (max_frames - 1), 1)
+                end_frame = stride * max_frames
             else:
-                start_frame = 0  # we set start_frame = 0 because the pose alignment is performed on the first frame
+                start_frame = 0
                 end_frame = start_frame + cover_frame_num
-            
+
             frame_list = []
             dwpose_list = []
             random_ref_frame = frames_all[list(frames_all.keys())[0]]
             if random_ref_frame.mode != 'RGB':
                 random_ref_frame = random_ref_frame.convert('RGB')
-            random_ref_dwpose = pose_ref 
+            random_ref_dwpose = pose_ref
             if random_ref_dwpose.mode != 'RGB':
                 random_ref_dwpose = random_ref_dwpose.convert('RGB')
+
             for i_index in range(start_frame, end_frame, stride):
-                if i_index == start_frame and first_eq_ref:
-                    i_key = list(frames_all.keys())[i_index]
-                    i_frame = frames_all[i_key]
-
-                    if i_frame.mode != 'RGB':
-                        i_frame = i_frame.convert('RGB')
-                    i_dwpose = frames_pose_ref
-                    if i_dwpose.mode != 'RGB':
-                        i_dwpose = i_dwpose.convert('RGB')
-                    frame_list.append(i_frame)
-                    dwpose_list.append(i_dwpose)
-                else:
-                    # added 
-                    if first_eq_ref:
-                        i_index = i_index - stride
-
+                if i_index < len(frames_all):  # Check index within bounds
                     i_key = list(frames_all.keys())[i_index]
                     i_frame = frames_all[i_key]
                     if i_frame.mode != 'RGB':
                         i_frame = i_frame.convert('RGB')
+                    
                     i_dwpose = dwpose_all[i_key]
                     if i_dwpose.mode != 'RGB':
                         i_dwpose = i_dwpose.convert('RGB')
                     frame_list.append(i_frame)
                     dwpose_list.append(i_dwpose)
-            have_frames = len(frame_list)>0
-            middle_indix = 0
-            if have_frames:
+
+            if frame_list:
+                middle_indix = 0
                 ref_frame = frame_list[middle_indix]
                 vit_frame = vit_transforms(ref_frame)
                 random_ref_frame_tmp = train_trans_pose(random_ref_frame)
-                random_ref_dwpose_tmp = train_trans_pose(random_ref_dwpose) 
+                random_ref_dwpose_tmp = train_trans_pose(random_ref_dwpose)
                 misc_data_tmp = torch.stack([train_trans_pose(ss) for ss in frame_list], dim=0)
-                video_data_tmp = torch.stack([train_trans(ss) for ss in frame_list], dim=0) 
+                video_data_tmp = torch.stack([train_trans(ss) for ss in frame_list], dim=0)
                 dwpose_data_tmp = torch.stack([train_trans_pose(ss) for ss in dwpose_list], dim=0)
-            
-            video_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
-            dwpose_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
-            misc_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
-            random_ref_frame_data = torch.zeros(max_frames, 3, resolution[1], resolution[0]) # [32, 3, 512, 768]
-            random_ref_dwpose_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
-            if have_frames:
-                video_data[:len(frame_list), ...] = video_data_tmp      
+
+                video_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
+                dwpose_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
+                misc_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
+                random_ref_frame_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
+                random_ref_dwpose_data = torch.zeros(max_frames, 3, resolution[1], resolution[0])
+
+                video_data[:len(frame_list), ...] = video_data_tmp
                 misc_data[:len(frame_list), ...] = misc_data_tmp
                 dwpose_data[:len(frame_list), ...] = dwpose_data_tmp
-                random_ref_frame_data[:,...] = random_ref_frame_tmp
-                random_ref_dwpose_data[:,...] = random_ref_dwpose_tmp
-            
-            break
-            
+                random_ref_frame_data[:, ...] = random_ref_frame_tmp
+                random_ref_dwpose_data[:, ...] = random_ref_dwpose_tmp
+
+                return vit_frame, video_data, misc_data, dwpose_data, random_ref_frame_data, random_ref_dwpose_data
+
         except Exception as e:
-            logging.info('{} read video frame failed with error: {}'.format(pose_file_path, e))
+            logging.info(f'Error reading video frame: {e}')
             continue
 
-    return vit_frame, video_data, misc_data, dwpose_data, random_ref_frame_data, random_ref_dwpose_data
-
-
+    return None, None, None, None, None, None
 
 def worker(gpu, cfg, cfg_update):
     '''

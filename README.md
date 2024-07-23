@@ -71,7 +71,7 @@ pip install -r requirements.txt
 ```
 We also provide all the dependencies in `environment.yaml`. 
 
-**Note**: for Windows operating system, you can refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/11) to install the dependencies. Thanks to [@zephirusgit](https://github.com/zephirusgit) for the contribution.
+**Note**: for Windows operating system, you can refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/11) to install the dependencies. Thanks to [@zephirusgit](https://github.com/zephirusgit) for the contribution. If you encouter the problem of `The shape of the 2D attn_mask is torch.Size([77, 77]), but should be (1, 1).`, please refer to [this issue](https://github.com/ali-vilab/UniAnimate/issues/61) to solve it, thanks to [@Isi-dev](https://github.com/Isi-dev) for the contribution.
 
 ### (2) Download the pretrained checkpoints
 
